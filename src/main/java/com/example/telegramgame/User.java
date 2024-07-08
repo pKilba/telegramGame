@@ -11,7 +11,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "telegram_id", unique=true, nullable=false)
+    @Column(name = "telegram_id")
     private String telegramId;
 
     @Column(name = "username")
@@ -23,6 +23,11 @@ public class User {
         this.id = id;
         this.username = username;
     }
+
+    public User() {
+
+    }
+
     // Getters and setters
     public Long getId() {
         return id;
