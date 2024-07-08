@@ -19,7 +19,10 @@ public class User {
 
     @Column(name = "score")
     private Integer score;
-
+    public User(Long id, String username) {
+        this.id = id;
+        this.username = username;
+    }
     // Getters and setters
     public Long getId() {
         return id;
