@@ -11,14 +11,16 @@ public class TelegramController {
 
     @PostMapping
     public void handleWebhook(@RequestBody TelegramUpdate update) {
-        if (update.getMessage() != null) {
-            Long userId = update.getMessage().getFrom().getId();
-            String username = update.getMessage().getFrom().getUsername();
+        System.out.println("Mega Test !!!!");
 
-            User user = new User(userId, username);
-            userRepository.save(user);
+//        if (update.getMessage() != null) {
+//            Long userId = update.getMessage().getFrom().getId();
+//            String username = update.getMessage().getFrom().getUsername();
+//
+//            User user = new User(userId, username);
+//            userRepository.save(user);
 
             // Дополнительная логика обработки
-        }
+     //   }
     }
 }
