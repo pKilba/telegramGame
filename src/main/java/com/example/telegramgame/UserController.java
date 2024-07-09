@@ -17,6 +17,7 @@ public class UserController {
 
     @PostMapping("/save-score")
     public ResponseEntity<User> saveScore(@RequestBody User user) {
+        System.out.println(user);
         User savedUser = userService.saveOrUpdateUser(user);
         return ResponseEntity.ok(savedUser);
     }

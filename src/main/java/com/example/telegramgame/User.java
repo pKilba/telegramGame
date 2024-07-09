@@ -17,11 +17,20 @@ public class User {
     @Column(name = "username")
     private String username;
 
+
+    @Column(name = "userId")
+    private Integer userId;
+
     @Column(name = "score")
     private Integer score;
     public User(Long id, String username) {
         this.id = id;
         this.username = username;
+    }
+    public User(Long id, String username, Integer userId)  {
+        this.id = id;
+        this.username = username;
+        this.userId = userId;
     }
 
     public User() {
