@@ -23,7 +23,7 @@ public class UserService {
         }
     }
 
-    public Optional<User> getUserByTelegramId(Long userId) {
+    public Optional<User> getUserByTelegramId(String userId) {
         return userRepository.findByUserId(userId);
     }
 }
