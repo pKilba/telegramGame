@@ -3,6 +3,8 @@ package com.example.telegramgame;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -19,6 +21,9 @@ public class User {
 
     @Column(name = "score")
     private Integer score;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Wallet> wallets;
 
     public User(Long id, String username) {
         this.id = id;
