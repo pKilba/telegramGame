@@ -11,9 +11,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "telegram_id")
-    private String telegramId;
-
     @Column(name = "username")
     private String username;
 
@@ -45,13 +42,7 @@ public class User {
         this.id = id;
     }
 
-    public String getTelegramId() {
-        return telegramId;
-    }
 
-    public void setTelegramId(String telegramId) {
-        this.telegramId = telegramId;
-    }
 
     public String getUsername() {
         return username;
