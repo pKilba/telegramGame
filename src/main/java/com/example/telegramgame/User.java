@@ -15,7 +15,7 @@ public class User {
     private String username;
 
     @Column(name = "user_id") // Используем snake_case для имени столбца
-    private Integer userId;
+    private Long userId;
 
     @Column(name = "score")
     private Integer score;
@@ -25,7 +25,7 @@ public class User {
         this.username = username;
     }
 
-    public User(Long id, String username, Integer userId) {
+    public User(Long id, String username, Long userId) {
         this.id = id;
         this.username = username;
         this.userId = userId;
@@ -52,11 +52,11 @@ public class User {
         this.username = username;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
