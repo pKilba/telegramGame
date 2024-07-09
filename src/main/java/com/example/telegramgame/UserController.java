@@ -21,7 +21,7 @@ public class UserController {
     }
 
     @GetMapping("/get-user/{telegramId}")
-    public ResponseEntity<User> getUser(@PathVariable Integer telegramId) {
+    public ResponseEntity<User> getUser(@PathVariable Long telegramId) {
         Optional<User> user = userService.getUserByTelegramId(telegramId);
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
