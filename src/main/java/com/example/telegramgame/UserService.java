@@ -4,7 +4,6 @@ import com.example.telegramgame.User;
 import com.example.telegramgame.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service
@@ -19,6 +18,7 @@ public class UserService {
             User updatedUser = existingUser.get();
             updatedUser.setUsername(user.getUsername());
             updatedUser.setScore(user.getScore());
+            updatedUser.setUserId(user.getUserId()); // Обновляем также userId
             return userRepository.save(updatedUser);
         } else {
             return userRepository.save(user);

@@ -1,7 +1,5 @@
 package com.example.telegramgame;
 
-import com.example.telegramgame.User;
-import com.example.telegramgame.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
