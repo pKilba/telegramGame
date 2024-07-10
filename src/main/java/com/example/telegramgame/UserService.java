@@ -20,12 +20,12 @@ public class UserService {
             User updatedUser = existingUser.get();
             updatedUser.setUsername(user.getUsername());
             updatedUser.setScore(user.getScore());
-            updatedUser.setUserId(user.getUserId()); // Обновляем также userId
+            updatedUser.setUserId(user.getUserId()); // Ensure userId is updated
             return userRepository.save(updatedUser);
         } else {
             User newUser = userRepository.save(user);
-            createInitialWallets(newUser); // Создаем кошельки для нового пользователя
-            return userRepository.save(user);
+            createInitialWallets(newUser); // Create wallets for the new user
+            return newUser;
         }
     }
 

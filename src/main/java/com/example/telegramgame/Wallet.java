@@ -6,24 +6,30 @@ import jakarta.persistence.*;
 @Table(name = "wallets")
 public class Wallet {
 
+    public enum Currency {
+        JUMPBIT, BTC, ETH, USDT, TON
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "currency")
+    @Enumerated(EnumType.STRING)
     private Currency currency;
 
     @Column(name = "balance")
-    private Double balance;
+    private double balance;
+
+    // Constructors, getters, and setters
 
     public Wallet() {}
 
-    public Wallet(User user, Currency currency, Double balance) {
+    public Wallet(User user, Currency currency, double balance) {
         this.user = user;
         this.currency = currency;
         this.balance = balance;
@@ -53,17 +59,11 @@ public class Wallet {
         this.currency = currency;
     }
 
-    public Double getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(Double balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
-    }
-// Getters and setters
-    // ...
-
-    public enum Currency {
-        JUMPBIT,BTC, ETH, USDT, TON
     }
 }
