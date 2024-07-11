@@ -17,12 +17,13 @@ public class UserService {
     public User saveOrUpdateUser(User user) {
         Optional<User> existingUser = userRepository.findByUserId(user.getUserId());
         if (existingUser.isPresent()) {
-            User updatedUser = existingUser.get();
-            updatedUser.setUsername(user.getUsername());
-            updatedUser.setScore(user.getScore());
-            updatedUser.setUserId(user.getUserId());
-            updatedUser.setReferralId(user.getReferralId()); // Ensure referralId is updated
-            return userRepository.save(updatedUser);
+//            User updatedUser = existingUser.get();
+//            updatedUser.setUsername(user.getUsername());
+//            updatedUser.setScore(user.getScore());
+//            updatedUser.setUserId(user.getUserId());
+//            updatedUser.setReferralId(user.getReferralId()); // Ensure referralId is updated
+ //           return userRepository.save(updatedUser);
+            return user;
         } else {
             User newUser = userRepository.save(user);
             createInitialWallets(newUser); // Create wallets for the new user
