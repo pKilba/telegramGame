@@ -20,7 +20,8 @@ public class UserService {
             User updatedUser = existingUser.get();
             updatedUser.setUsername(user.getUsername());
             updatedUser.setScore(user.getScore());
-            updatedUser.setUserId(user.getUserId()); // Ensure userId is updated
+            updatedUser.setUserId(user.getUserId());
+            updatedUser.setReferralId(user.getReferralId()); // Ensure referralId is updated
             return userRepository.save(updatedUser);
         } else {
             User newUser = userRepository.save(user);
@@ -32,6 +33,7 @@ public class UserService {
     public Optional<User> getUserByTelegramId(String userId) {
         return userRepository.findByUserId(userId);
     }
+
     public Wallet updateBalance(String telegramId, Wallet.Currency currency, double amount) {
         Optional<User> existingUser = userRepository.findByUserId(telegramId);
         if (existingUser.isPresent()) {

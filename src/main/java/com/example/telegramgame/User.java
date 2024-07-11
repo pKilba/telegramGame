@@ -1,60 +1,32 @@
 package com.example.telegramgame;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.*;
-
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "user_id")
+    private String userId;
 
     @Column(name = "username")
     private String username;
 
-    @Column(name = "user_id") // Используем snake_case для имени столбца
-    private String userId;
-
     @Column(name = "score")
     private Integer score;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Wallet> wallets;
+    @Column(name = "referral_id")
+    private String referralId;
 
-    public User(Long id, String username) {
-        this.id = id;
-        this.username = username;
-    }
-
-    public User(Long id, String username, String userId) {
-        this.id = id;
-        this.username = username;
-        this.userId = userId;
-    }
+    // Constructors, getters, and setters
 
     public User() {}
 
-    // Getters and setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
+    public User(String userId, String username, String referralId) {
+        this.userId = userId;
         this.username = username;
+        this.referralId = referralId;
     }
 
     public String getUserId() {
@@ -65,11 +37,27 @@ public class User {
         this.userId = userId;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public Integer getScore() {
         return score;
     }
 
     public void setScore(Integer score) {
         this.score = score;
+    }
+
+    public String getReferralId() {
+        return referralId;
+    }
+
+    public void setReferralId(String referralId) {
+        this.referralId = referralId;
     }
 }
