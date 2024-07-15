@@ -46,7 +46,7 @@ public class UserService {
                 wallet.setBalance(wallet.getBalance() + amount);
             } else {
                 wallet = new Wallet(user, currency, amount);
-            }
+            } 
             return walletRepository.save(wallet);
         } else {
             throw new IllegalArgumentException("User not found with telegramId: " + telegramId);
