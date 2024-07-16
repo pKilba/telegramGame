@@ -1,5 +1,8 @@
-package com.example.telegramgame;
+package com.example.telegramgame.controller;
 
+import com.example.telegramgame.entity.User;
+import com.example.telegramgame.service.UserService;
+import com.example.telegramgame.entity.Wallet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,6 @@
-package com.example.telegramgame;
+package com.example.telegramgame.repository;
+import com.example.telegramgame.entity.User;
+import com.example.telegramgame.entity.Wallet;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 import java.util.Set;

@@ -1,6 +1,8 @@
-package com.example.telegramgame;
+package com.example.telegramgame.entity;
 
 import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -19,6 +21,8 @@ public class User {
     @Column(name = "referral_id")
     private String referralId;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<UserUpgrade> userUpgrades;
     // Constructors, getters, and setters
 
     public User() {}

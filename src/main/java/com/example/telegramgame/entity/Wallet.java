@@ -1,4 +1,4 @@
-package com.example.telegramgame;
+package com.example.telegramgame.entity;
 
 import jakarta.persistence.*;
 

@@ -1,5 +1,6 @@
-package com.example.telegramgame;
+package com.example.telegramgame.repository;
 
+import com.example.telegramgame.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

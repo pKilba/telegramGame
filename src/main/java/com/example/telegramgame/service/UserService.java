@@ -1,5 +1,9 @@
-package com.example.telegramgame;
+package com.example.telegramgame.service;
 
+import com.example.telegramgame.entity.User;
+import com.example.telegramgame.entity.Wallet;
+import com.example.telegramgame.repository.UserRepository;
+import com.example.telegramgame.repository.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
