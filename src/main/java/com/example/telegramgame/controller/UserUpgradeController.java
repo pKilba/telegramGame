@@ -23,7 +23,6 @@ public class UserUpgradeController {
         return ResponseEntity.ok(savedUserUpgrade);
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<UserUpgrade> getUserUpgradeById(@PathVariable Long id) {
         Optional<UserUpgrade> userUpgrade = userUpgradeService.getUserUpgradeById(id);
