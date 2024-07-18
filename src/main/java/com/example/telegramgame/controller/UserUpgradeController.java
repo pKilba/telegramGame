@@ -23,11 +23,13 @@ public class UserUpgradeController {
         return ResponseEntity.ok(savedUserUpgrade);
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<UserUpgrade> getUserUpgradeById(@PathVariable Long id) {
         Optional<UserUpgrade> userUpgrade = userUpgradeService.getUserUpgradeById(id);
         return userUpgrade.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<UserUpgrade>> getUserUpgradesByUserId(@PathVariable String userId) {
