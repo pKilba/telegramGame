@@ -1,7 +1,7 @@
 package com.example.telegramgame.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-
 import java.util.Set;
 
 @Entity
@@ -22,7 +22,17 @@ public class User {
     private String referralId;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Set<UserUpgrade> userUpgrades;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private Set<Wallet> wallets;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private FarmingInfo farmingInfo;
+
     // Constructors, getters, and setters
 
     public User() {}
@@ -63,5 +73,29 @@ public class User {
 
     public void setReferralId(String referralId) {
         this.referralId = referralId;
+    }
+
+    public Set<UserUpgrade> getUserUpgrades() {
+        return userUpgrades;
+    }
+
+    public void setUserUpgrades(Set<UserUpgrade> userUpgrades) {
+        this.userUpgrades = userUpgrades;
+    }
+
+    public Set<Wallet> getWallets() {
+        return wallets;
+    }
+
+    public void setWallets(Set<Wallet> wallets) {
+        this.wallets = wallets;
+    }
+
+    public FarmingInfo getFarmingInfo() {
+        return farmingInfo;
+    }
+
+    public void setFarmingInfo(FarmingInfo farmingInfo) {
+        this.farmingInfo = farmingInfo;
     }
 }

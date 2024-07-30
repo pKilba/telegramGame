@@ -2,10 +2,13 @@ package com.example.telegramgame.service;
 
 import com.example.telegramgame.entity.User;
 import com.example.telegramgame.entity.Wallet;
+import com.example.telegramgame.entity.FarmingInfo;
 import com.example.telegramgame.repository.UserRepository;
-import com.example.telegramgame.repository.WalletRepository;
+import com.example.telegramgame.repository.FarmingInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
 
@@ -16,61 +19,68 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private WalletRepository walletRepository;
+    private FarmingInfoRepository farmingInfoRepository;
 
     public User saveOrUpdateUser(User user) {
-        Optional<User> existingUser = userRepository.findByUserId(user.getUserId());
-        if (existingUser.isPresent()) {
-//            User updatedUser = existingUser.get();
-//            updatedUser.setUsername(user.getUsername());
-//            updatedUser.setScore(user.getScore());
-//            updatedUser.setUserId(user.getUserId());
-//            updatedUser.setReferralId(user.getReferralId()); // Ensure referralId is updated
- //           return userRepository.save(updatedUser);
-            return user;
-        } else {
-            User newUser = userRepository.save(user);
-            createInitialWallets(newUser); // Create wallets for the new user
-            return newUser;
-        }
+        return userRepository.save(user);
     }
 
-    public Optional<User> getUserByTelegramId(String userId) {
+    public Optional<User> getUserByUserId(String userId) {
         return userRepository.findByUserId(userId);
     }
 
-    public Wallet updateBalance(String telegramId, Wallet.Currency currency, double amount) {
-        Optional<User> existingUser = userRepository.findByUserId(telegramId);
-        if (existingUser.isPresent()) {
-            User user = existingUser.get();
-            Optional<Wallet> walletOpt = walletRepository.findByUserAndCurrency(user, currency);
-            Wallet wallet;
-            if (walletOpt.isPresent()) {
-                wallet = walletOpt.get();
-                wallet.setBalance(wallet.getBalance() + amount);
-            } else {
-                wallet = new Wallet(user, currency, amount);
-            } 
-            return walletRepository.save(wallet);
-        } else {
-            throw new IllegalArgumentException("User not found with telegramId: " + telegramId);
-        }
+    public Wallet updateBalance(String userId, Wallet.Currency currency, double amount) {
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        Wallet wallet = user.getWallets().stream()
+                .filter(w -> w.getCurrency() == currency)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Wallet not found"));
+
+        wallet.setBalance(wallet.getBalance() + amount);
+        userRepository.save(user);
+
+        return wallet;
     }
 
-    public Set<Wallet> getBalances(String telegramId) {
-        Optional<User> existingUser = userRepository.findByUserId(telegramId);
-        if (existingUser.isPresent()) {
-            User user = existingUser.get();
-            return walletRepository.findByUser(user);
-        } else {
-            throw new IllegalArgumentException("User not found with telegramId: " + telegramId);
-        }
+    public Set<Wallet> getBalances(String userId) {
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        return user.getWallets();
     }
 
-    private void createInitialWallets(User user) {
-        for (Wallet.Currency currency : Wallet.Currency.values()) {
-            Wallet wallet = new Wallet(user, currency, 0.0);
-            walletRepository.save(wallet);
+    public FarmingInfo getFarmingInfo(String userId) {
+        return farmingInfoRepository.findByUserUserId(userId);
+    }
+
+    public FarmingInfo updateFarmingInfo(FarmingInfo farmingInfo) {
+        return farmingInfoRepository.save(farmingInfo);
+    }
+
+    public FarmingInfo claimTokens(String userId) {
+        FarmingInfo farmingInfo = getFarmingInfo(userId);
+        if (farmingInfo == null) {
+            throw new IllegalArgumentException("Farming info not found");
         }
+
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime nextClaimTime = farmingInfo.getLastClaimTime().plusSeconds(farmingInfo.getWaitTime());
+
+        if (now.isBefore(nextClaimTime)) {
+            throw new IllegalArgumentException("Too early to claim");
+        }
+
+        // Update the last claim time and tokens
+        farmingInfo.setLastClaimTime(now);
+        User user = farmingInfo.getUser();
+        Wallet wallet = user.getWallets().stream()
+                .filter(w -> w.getCurrency() == Wallet.Currency.JUMPBIT)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Wallet not found"));
+        wallet.setBalance(wallet.getBalance() + farmingInfo.getTokenIncrement());
+        saveOrUpdateUser(user);
+
+        return updateFarmingInfo(farmingInfo);
     }
 }

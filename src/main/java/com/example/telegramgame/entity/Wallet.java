@@ -1,5 +1,6 @@
 package com.example.telegramgame.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,6 +17,7 @@ public class Wallet {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @JsonBackReference
     private User user;
 
     @Column(name = "currency")
