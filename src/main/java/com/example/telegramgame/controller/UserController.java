@@ -65,13 +65,26 @@ public class UserController {
 
     @PostMapping("/claim-tokens")
     public ResponseEntity<FarmingInfo> claimTokens(@RequestParam String telegramId) {
-        System.out.println("Received request to claim tokens for telegramId: " + telegramId);
         try {
             FarmingInfo updatedFarmingInfo = userService.claimTokens(telegramId);
             return ResponseEntity.ok(updatedFarmingInfo);
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    // Добавлен метод для установки времени последнего сбора
+    @PostMapping("/set-last-claim-time")
+    public ResponseEntity<FarmingInfo> setLastClaimTime(@RequestParam String telegramId, @RequestParam String lastClaimTime) {
+        try {
+            LocalDateTime lastClaim = LocalDateTime.parse(lastClaimTime);
+            FarmingInfo farmingInfo = userService.getFarmingInfo(telegramId);
+            farmingInfo.setLastClaimTime(lastClaim);
+            FarmingInfo updatedFarmingInfo = userService.updateFarmingInfo(farmingInfo);
+            return ResponseEntity.ok(updatedFarmingInfo);
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(null);
         }
     }
 }
+

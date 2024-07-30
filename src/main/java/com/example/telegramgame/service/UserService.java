@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
-
 @Service
 public class UserService {
 
@@ -66,9 +65,12 @@ public class UserService {
         }
 
         LocalDateTime now = LocalDateTime.now();
-        System.out.println("now"+now);
+        System.out.println("Current time: " + now);
         LocalDateTime nextClaimTime = farmingInfo.getLastClaimTime().plusSeconds(farmingInfo.getWaitTime());
-        System.out.println("not now "+ nextClaimTime);
+        System.out.println("Next claim time: " + nextClaimTime);
+        System.out.println("Last claim time: " + farmingInfo.getLastClaimTime());
+        System.out.println("Wait time in seconds: " + farmingInfo.getWaitTime());
+
         if (now.isBefore(nextClaimTime)) {
             throw new IllegalArgumentException("Too early to claim");
         }
