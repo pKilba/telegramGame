@@ -24,6 +24,15 @@ public class UserController {
         User savedUser = userService.saveOrUpdateUser(user);
         return ResponseEntity.ok(savedUser);
     }
+    @GetMapping("/time-until-next-claim/{telegramId}")
+    public ResponseEntity<Long> getTimeUntilNextClaim(@PathVariable String telegramId) {
+        try {
+            long timeUntilNextClaim = userService.getTimeUntilNextClaim(telegramId);
+            return ResponseEntity.ok(timeUntilNextClaim);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
 
     @GetMapping("/get-user/{telegramId}")
     public ResponseEntity<User> getUser(@PathVariable String telegramId) {

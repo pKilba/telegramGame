@@ -57,6 +57,23 @@ public class UserService {
         return farmingInfoRepository.save(farmingInfo);
     }
 
+
+    public long getTimeUntilNextClaim(String userId) {
+        FarmingInfo farmingInfo = getFarmingInfo(userId);
+        if (farmingInfo == null) {
+            throw new IllegalArgumentException("Farming info not found");
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime nextClaimTime = farmingInfo.getLastClaimTime().plusSeconds(farmingInfo.getWaitTime());
+
+        if (now.isAfter(nextClaimTime)) {
+            return 0; // Можно сразу же забрать
+        }
+
+        return now.until(nextClaimTime, java.time.temporal.ChronoUnit.SECONDS); // Время до следующего запроса в секундах
+    }
+
     public FarmingInfo claimTokens(String userId) {
         System.out.println("Claiming tokens for userId: " + userId);
         FarmingInfo farmingInfo = getFarmingInfo(userId);
