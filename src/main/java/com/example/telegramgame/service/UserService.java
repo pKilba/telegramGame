@@ -66,8 +66,9 @@ public class UserService {
         }
 
         LocalDateTime now = LocalDateTime.now();
+        System.out.println("now"+now);
         LocalDateTime nextClaimTime = farmingInfo.getLastClaimTime().plusSeconds(farmingInfo.getWaitTime());
-
+        System.out.println("not now "+ nextClaimTime);
         if (now.isBefore(nextClaimTime)) {
             throw new IllegalArgumentException("Too early to claim");
         }
