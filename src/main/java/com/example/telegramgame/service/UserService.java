@@ -59,6 +59,7 @@ public class UserService {
     }
 
     public FarmingInfo claimTokens(String userId) {
+        System.out.println("Claiming tokens for userId: " + userId);
         FarmingInfo farmingInfo = getFarmingInfo(userId);
         if (farmingInfo == null) {
             throw new IllegalArgumentException("Farming info not found");

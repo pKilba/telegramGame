@@ -65,10 +65,12 @@ public class UserController {
 
     @PostMapping("/claim-tokens")
     public ResponseEntity<FarmingInfo> claimTokens(@RequestParam String telegramId) {
+        System.out.println("Received request to claim tokens for telegramId: " + telegramId);
         try {
             FarmingInfo updatedFarmingInfo = userService.claimTokens(telegramId);
             return ResponseEntity.ok(updatedFarmingInfo);
         } catch (IllegalArgumentException e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().body(null);
         }
     }
